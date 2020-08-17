@@ -1,6 +1,6 @@
 import React from "react";
 
-const Operation = () => {
+const Operation = ({ addTransaction, addDescription, addAmount, description, amount }) => {
   return (
     <section className="operation">
       <h3>Новая операция</h3>
@@ -10,6 +10,8 @@ const Operation = () => {
             type="text"
             className="operation__fields operation__name"
             placeholder="Наименование операции"
+            onChange={addDescription}
+            value={description}
           />
         </label>
         <label>
@@ -17,16 +19,23 @@ const Operation = () => {
             type="number"
             className="operation__fields operation__amount"
             placeholder="Введите сумму"
+            onChange={addAmount}
+            value={amount}
           />
         </label>
         <div className="operation__btns">
           <button
-            type="submit"
+            onClick={() => addTransaction(false)}
+            type="button"
             className="operation__btn operation__btn-subtract"
           >
             РАСХОД
           </button>
-          <button type="submit" className="operation__btn operation__btn-add">
+          <button
+            onClick={() => addTransaction(true)}
+            type="button"
+            className="operation__btn operation__btn-add"
+          >
             ДОХОД
           </button>
         </div>
