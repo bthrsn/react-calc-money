@@ -11,6 +11,9 @@ state = {
     transactions: [],
     description: "",
     amount: "",
+    resultExpenses: 0,
+      resultIncome: 0,
+      totalBalance: 0,
   }
 
     // метод добавляющий транзакцию
@@ -33,13 +36,13 @@ this.setState({
   transactions,
   // очищаем поля ввода, передавая пустые строки
 description: '',
-amount: ''
-});
+amount: '',
+}, this.getTotalBalance);
   }
 
   addAmount = (e) => {
     this.setState({
-      amount: e.target.value
+      amount: parseFloat(e.target.value)
     });
 
   }
@@ -47,6 +50,34 @@ amount: ''
   addDescription = (e) => {
     this.setState({
       description: e.target.value
+    });
+  }
+
+  // Получаем доход
+  getIncome = () => this.state.transactions
+    // Сначала фильтруем только доходы
+    .filter(item => item.add)
+    // Потом складываем их и указываем, что первое значение = 0
+    // Нужно два параметра в acc копиться, а item это новый доход
+    .reduce((acc, item) => item.amount + acc, 0)
+
+  // Получаем расходы
+getExpenses = () => this.state.transactions
+  // В расходах инвенртируем item, нужны расходы, а не доходы
+  .filter(item => !item.add)
+  .reduce((acc, item) => item.amount + acc, 0)
+
+// Считаем итог
+  getTotalBalance() {
+    const resultIncome = this.getIncome();
+    const resultExpenses = this.getExpenses();
+
+    const totalBalance = resultIncome - resultExpenses;
+
+    this.setState({
+      resultExpenses,
+      resultIncome,
+      totalBalance,
     });
   }
 
@@ -60,7 +91,10 @@ amount: ''
         </header>
         <main>
           <div className="container">
-            <Total />
+            <Total 
+            resultExpenses={this.state.resultExpenses}
+            resultIncome={this.state.resultIncome}
+            totalBalance={this.state.totalBalance}/>
             <History transactions={this.state.transactions}/>
             <Operation
               addTransaction={this.addTransaction}
