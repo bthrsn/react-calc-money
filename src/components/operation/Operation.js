@@ -3,13 +3,13 @@ import React from "react";
 const Operation = ({ addTransaction, addDescription, addAmount, description, amount }) => {
   return (
     <section className="operation">
-      <h3>Новая операция</h3>
+      <h3>New transaction</h3>
       <form id="form">
         <label>
           <input
             type="text"
             className="operation__fields operation__name"
-            placeholder="Наименование операции"
+            placeholder="Name"
             onChange={addDescription}
             value={description}
           />
@@ -18,7 +18,7 @@ const Operation = ({ addTransaction, addDescription, addAmount, description, amo
           <input
             type="number"
             className="operation__fields operation__amount"
-            placeholder="Введите сумму"
+            placeholder="Cost"
             onChange={addAmount}
             value={amount}
           />
@@ -29,14 +29,14 @@ const Operation = ({ addTransaction, addDescription, addAmount, description, amo
             type="button"
             className="operation__btn operation__btn-subtract"
           >
-            РАСХОД
+            EXPENSE
           </button>
           <button
             onClick={() => addTransaction(true)}
             type="button"
             className="operation__btn operation__btn-add"
           >
-            ДОХОД
+            INCOME
           </button>
         </div>
       </form>
